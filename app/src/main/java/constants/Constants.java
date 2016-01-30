@@ -5,6 +5,8 @@ package constants;
  */
 public class Constants {
 
+    public static final String PAGE_TITLE = "title";
+
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
     public static final String IMAGE_URL = "imageHref";

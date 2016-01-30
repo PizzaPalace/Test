@@ -26,6 +26,7 @@ import constants.Constants;
 public class JSONHelper {
 
     public static ArrayList<HashMap<String,String>> requestData(RequestQueue requestQueue, String url) {
+
         ArrayList<HashMap<String,String>> data = null;
         JSONObject response = null;
         RequestFuture<JSONObject> requestFuture = RequestFuture.newFuture();
@@ -66,6 +67,7 @@ public class JSONHelper {
                 HashMap<String,String> map = new HashMap<String,String>();
                 JSONObject jObject = jsonArray.getJSONObject(i);
 
+
                 map.put(Constants.TITLE, jObject.getString(Constants.TITLE));
                 map.put(Constants.DESCRIPTION, jObject.getString(Constants.DESCRIPTION));
                 map.put(Constants.IMAGE_URL, jObject.getString(Constants.IMAGE_URL));
@@ -75,6 +77,21 @@ public class JSONHelper {
             }
 
             return list;
+        }
+        catch(JSONException exception){
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getTitle(JSONObject jsonObject){
+
+        String title;
+        try {
+
+            title = jsonObject.getString(Constants.PAGE_TITLE);
+
+            return title;
         }
         catch(JSONException exception){
             exception.printStackTrace();

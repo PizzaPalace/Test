@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,14 +34,32 @@ import network.VolleySingleton;
 public class MainActivity extends AppCompatActivity
                           implements ListFragment.OnFragmentInteractionListener{
 
+    String mActivityTitle;
     ArrayList<HashMap<String,String>> mData;
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initializeToolbar();
+        initializeFAB();
+
+        mProgressBar = (ProgressBar)findViewById(R.id.progress_bar);
+
+        fetchData();
+    }
+
+    private void initializeToolbar(){
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+    }
+
+    private void initializeFAB(){
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -50,8 +69,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
-        fetchData();
     }
 
     @Override
@@ -85,11 +102,12 @@ public class MainActivity extends AppCompatActivity
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.v("Response: ", response.toString());
-                        mData = JSONHelper.jsonParser(response);
-                        Log.v("data",mData.toString());
-                        passDataToFragment(mData);
 
+                        mData = JSONHelper.jsonParser(response);
+                        passDataToFragment(mData);
+                        mProgressBar.setVisibility(View.GONE);
+                        mActivityTitle = JSONHelper.getTitle(response);
+                        getSupportActionBar().setTitle(mActivityTitle);
                     }
                 }, new Response.ErrorListener() {
 
@@ -109,10 +127,18 @@ public class MainActivity extends AppCompatActivity
         FragmentManager manager = getSupportFragmentManager();
         ListFragment listFragment = (ListFragment)manager.findFragmentByTag(getString(R.string.list_fragment));
         listFragment.setAdapter(data);
+        listFragment.dismissRefresh();
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onSwipeInteraction() {
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        fetchData();
     }
 }

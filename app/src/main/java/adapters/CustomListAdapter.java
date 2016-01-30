@@ -2,6 +2,7 @@ package adapters;
 
 import android.content.Context;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,10 @@ public class CustomListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mData.size();
+        if(mData != null)
+            return mData.size();
+        else
+            return 0;
     }
 
     @Override
@@ -86,17 +90,24 @@ public class CustomListAdapter extends BaseAdapter {
             imageURL = map.get(Constants.IMAGE_URL);
 
             viewHolder.mTitleTextView.setText(title);
-            viewHolder.mDescriptionTextView.setText(description);
+
+            if(description != null && !description.equals("null")) {
+                viewHolder.mDescriptionTextView.setText(description);
+                Log.v("NOT NULL",description);
+            }
+            else{
+                viewHolder.mDescriptionTextView.setText("");
+                Log.v("null",description);
+            }
 
             Picasso.with(mContext)
                     .load(imageURL)
+                    .fit()
                     .placeholder(android.R.drawable.stat_notify_error)
                     .error(android.R.drawable.stat_notify_error)
                     .into(viewHolder.mImageView);
 
-
         }
-
 
         return convertView;
     }

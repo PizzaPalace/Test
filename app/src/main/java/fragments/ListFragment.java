@@ -26,7 +26,9 @@ import adapters.CustomListAdapter;
  * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ListFragment extends Fragment
+        implements SwipeRefreshLayout.OnRefreshListener {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -115,6 +117,13 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onRefresh() {
 
+        mListView.setAdapter(null);
+        mListener.onSwipeInteraction();
+    }
+
+    public void dismissRefresh(){
+        if(mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing())
+            mSwipeRefreshLayout.setRefreshing(false);
     }
 
     /**
@@ -130,6 +139,7 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void onSwipeInteraction();
     }
 
 
