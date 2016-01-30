@@ -85,6 +85,9 @@ public class JSONHelper {
             exception.printStackTrace();
             return null;
         }
+        catch(Exception exception){
+            return null;
+        }
     }
 
     public static String getTitle(JSONObject jsonObject){
@@ -93,11 +96,13 @@ public class JSONHelper {
         try {
 
             title = jsonObject.getString(Constants.PAGE_TITLE);
-
             return title;
         }
         catch(JSONException exception){
             exception.printStackTrace();
+            return null;
+        }
+        catch(Exception exception){
             return null;
         }
     }

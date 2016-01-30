@@ -83,7 +83,7 @@ public class ListFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         this.mListView = (ListView)view.findViewById(android.R.id.list);
         this.mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_to_refresh);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        this.mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
 
@@ -102,9 +102,7 @@ public class ListFragment extends Fragment
     public void onSaveInstanceState(Bundle bundle){
         super.onSaveInstanceState(bundle);
 
-
         bundle.putSerializable(Constants.DATA_STORE_KEY,DataSource.getData());
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

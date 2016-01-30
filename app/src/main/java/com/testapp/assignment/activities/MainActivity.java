@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import Models.DataSource;
+import constants.Common;
 import constants.Constants;
 import fragments.ListFragment;
 import json.JSONHelper;
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             manager.getFragment(savedInstanceState,Constants.DATA_STORE_KEY);
             mProgressBar.setVisibility(View.GONE);
+
+            String title = (String)savedInstanceState.getString(Constants.TITLE);
+            getSupportActionBar().setTitle(title);
         }
 
     }
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         super.onSaveInstanceState(bundle);
 
         bundle.putSerializable(Constants.DATA_STORE_KEY, DataSource.getData());
+        bundle.putString(Constants.TITLE,DataSource.getTitle());
         FragmentManager manager = getSupportFragmentManager();
         ListFragment fragment = (ListFragment)manager.findFragmentByTag(getString(R.string.list_fragment));
         manager.putFragment(bundle, Constants.DATA_STORE_KEY, fragment);
@@ -133,11 +138,31 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        DataSource.setData(JSONHelper.jsonParser(response));
-                        passDataToFragment(DataSource.getData());
-                        mProgressBar.setVisibility(View.GONE);
-                        DataSource.setTitle(JSONHelper.getTitle(response));
-                        getSupportActionBar().setTitle(DataSource.getTitle());
+                        try {
+
+                            ArrayList<HashMap<String,String>> data = JSONHelper.jsonParser(response);
+                            if(data != null) {
+                                DataSource.setData(data);
+                                passDataToFragment(DataSource.getData());
+                            }
+                            else
+                                Common.displayErrorMessage(getApplicationContext());
+
+
+                            String title = JSONHelper.getTitle(response);
+                            if(title != null) {
+                                DataSource.setTitle(title);
+                                getSupportActionBar().setTitle(DataSource.getTitle());
+                            }
+                            else
+                                Common.displayErrorMessage(getApplicationContext());
+
+
+                            mProgressBar.setVisibility(View.GONE);
+                        }
+                        catch(NullPointerException exception) {
+                            Common.displayErrorMessage(getApplicationContext());
+                        }
                     }
                 }, new Response.ErrorListener() {
 
