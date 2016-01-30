@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,7 +36,6 @@ import network.VolleySingleton;
 public class MainActivity extends AppCompatActivity
                           implements ListFragment.OnFragmentInteractionListener{
 
-    String mActivityTitle;
     ProgressBar mProgressBar;
     RequestQueue mRequestQueue;
 
@@ -136,16 +136,15 @@ public class MainActivity extends AppCompatActivity
                         DataSource.setData(JSONHelper.jsonParser(response));
                         passDataToFragment(DataSource.getData());
                         mProgressBar.setVisibility(View.GONE);
-                        mActivityTitle = JSONHelper.getTitle(response);
-                        getSupportActionBar().setTitle(mActivityTitle);
+                        DataSource.setTitle(JSONHelper.getTitle(response));
+                        getSupportActionBar().setTitle(DataSource.getTitle());
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
-                        Log.v("ERROR", error.toString());
-
+                        //Toast.makeText(getApplicationContext(),"Oops, are you sure you are connected to the internet? ",Toast.LENGTH_SHORT);
                         fetchData();
 
                     }

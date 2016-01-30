@@ -12,6 +12,8 @@ import java.util.HashMap;
 public class DataSource  {
 
     public static ArrayList<HashMap<String,String>> mData;
+    public static String mTitle;
+
 
     public static ArrayList<HashMap<String,String>> getData(){
         return mData;
@@ -19,5 +21,13 @@ public class DataSource  {
 
     public static void setData(ArrayList<HashMap<String,String>> data){
         mData = data;
+    }
+
+    public static String getTitle(){
+        return mTitle;
+    }
+
+    public static void setTitle(String title){
+        mTitle = title;
     }
 }
