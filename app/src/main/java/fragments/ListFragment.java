@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,7 @@ import adapters.CustomListAdapter;
  * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,6 +37,7 @@ public class ListFragment extends Fragment {
     private String mParam2;
 
     ListView mListView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private OnFragmentInteractionListener mListener;
 
     public ListFragment() {
@@ -74,6 +77,8 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         this.mListView = (ListView)view.findViewById(android.R.id.list);
+        this.mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_to_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
 
@@ -105,6 +110,11 @@ public class ListFragment extends Fragment {
 
         CustomListAdapter adapter = new CustomListAdapter(getActivity(),data);
         mListView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 
     /**

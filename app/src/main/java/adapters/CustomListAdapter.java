@@ -87,13 +87,13 @@ public class CustomListAdapter extends BaseAdapter {
 
             viewHolder.mTitleTextView.setText(title);
             viewHolder.mDescriptionTextView.setText(description);
-            if(imageURL != null) {
-                Picasso.with(mContext)
-                        .load(imageURL)
-                        .placeholder(R.drawable.notification_template_icon_bg)
-                        .error(R.drawable.notification_template_icon_bg)
-                        .into(viewHolder.mImageView);
-            }
+
+            Picasso.with(mContext)
+                    .load(imageURL)
+                    .placeholder(android.R.drawable.stat_notify_error)
+                    .error(android.R.drawable.stat_notify_error)
+                    .into(viewHolder.mImageView);
+
 
         }
 
