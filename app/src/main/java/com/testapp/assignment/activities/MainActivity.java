@@ -5,13 +5,30 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.testapp.assignment.R;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import constants.Constants;
+import json.JSONHelper;
+import network.VolleySingleton;
+
 public class MainActivity extends AppCompatActivity {
+
+    ArrayList<HashMap<String,String>> mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        fetchData();
     }
 
     @Override
@@ -50,5 +69,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void fetchData(){
+
+        RequestQueue requestQueue = VolleySingleton.getInstance(this).getRequestQueue();
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, Constants.URL, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v("Response: ", response.toString());
+                        mData = JSONHelper.jsonParser(response);
+                        Log.v("data",mData.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        Log.v("ERROR", error.toString());
+
+                    }
+                });
+
+        requestQueue.add(jsObjRequest);
     }
 }

@@ -481,6 +481,7 @@ int dimen item_touch_helper_max_drag_scroll_per_frame 0x7f080067
 int dimen notification_large_icon_height 0x7f080068
 int dimen notification_large_icon_width 0x7f080069
 int dimen notification_subtext_size 0x7f08006a
+int dimen text_margin 0x7f08006b
 int drawable abc_ab_share_pack_mtrl_alpha 0x7f020000
 int drawable abc_action_bar_item_background_material 0x7f020001
 int drawable abc_btn_borderless_material 0x7f020002
