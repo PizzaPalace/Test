@@ -26,6 +26,8 @@ MERGED from [com.android.support:appcompat-v7:23.1.1] C:\Users\rahul\Documents\A
 MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
 	android:supportsRtl
 		ADDED from C:\Users\rahul\Documents\Assignment\app\src\main\AndroidManifest.xml:11:9-35
 	android:label
@@ -63,6 +65,9 @@ MERGED from [com.android.support:appcompat-v7:23.1.1] C:\Users\rahul\Documents\A
 MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:recyclerview-v7:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.1.1] C:\Users\rahul\Documents\Assignment\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
 	android:targetSdkVersion
 		INJECTED from C:\Users\rahul\Documents\Assignment\app\src\main\AndroidManifest.xml

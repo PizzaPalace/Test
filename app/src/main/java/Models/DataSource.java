@@ -1,7 +1,4 @@
-package Models;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package models;
 
 import java.util.ArrayList;
 import java.util.HashMap;

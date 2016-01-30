@@ -1,6 +1,5 @@
 package com.testapp.assignment.activities;
 
-import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,7 +25,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Models.DataSource;
+import listeners.NetworkListener;
+import models.DataSource;
 import constants.Common;
 import constants.Constants;
 import fragments.ListFragment;
@@ -35,10 +34,10 @@ import json.JSONHelper;
 import network.VolleySingleton;
 
 public class MainActivity extends AppCompatActivity
-                          implements ListFragment.OnFragmentInteractionListener{
+                          implements ListFragment.OnFragmentInteractionListener,
+                                     NetworkListener {
 
     ProgressBar mProgressBar;
-    RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,8 @@ public class MainActivity extends AppCompatActivity
         mProgressBar = (ProgressBar)findViewById(R.id.progress_bar);
 
         if(savedInstanceState == null) {
-            fetchData();
+            //fetchData();
+            Common.fetchData(this);
         }
         else{
             FragmentManager manager = getSupportFragmentManager();
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         super.onSaveInstanceState(bundle);
 
         bundle.putSerializable(Constants.DATA_STORE_KEY, DataSource.getData());
-        bundle.putString(Constants.TITLE,DataSource.getTitle());
+        bundle.putString(Constants.TITLE, DataSource.getTitle());
         FragmentManager manager = getSupportFragmentManager();
         ListFragment fragment = (ListFragment)manager.findFragmentByTag(getString(R.string.list_fragment));
         manager.putFragment(bundle, Constants.DATA_STORE_KEY, fragment);
@@ -122,61 +122,11 @@ public class MainActivity extends AppCompatActivity
     protected void onStop(){
         super.onStop();
 
-        if(mRequestQueue != null){
-            mRequestQueue.cancelAll(Constants.REQUEST_QUEUE_TAG);
+        RequestQueue requestQueue = VolleySingleton.getInstance(this).getRequestQueue();
+        if(requestQueue != null){
+            requestQueue.cancelAll(Constants.REQUEST_QUEUE_TAG);
         }
 
-    }
-
-    private void fetchData(){
-
-        this.mRequestQueue = VolleySingleton.getInstance(this).getRequestQueue();
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, Constants.URL, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                            ArrayList<HashMap<String,String>> data = JSONHelper.jsonParser(response);
-                            if(data != null) {
-                                DataSource.setData(data);
-                                passDataToFragment(DataSource.getData());
-                            }
-                            else
-                                Common.displayErrorMessage(getApplicationContext());
-
-
-                            String title = JSONHelper.getTitle(response);
-                            if(title != null) {
-                                DataSource.setTitle(title);
-                                getSupportActionBar().setTitle(DataSource.getTitle());
-                            }
-                            else
-                                Common.displayErrorMessage(getApplicationContext());
-
-
-                            mProgressBar.setVisibility(View.GONE);
-                        }
-                        catch(NullPointerException exception) {
-                            Common.displayErrorMessage(getApplicationContext());
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-                        //Toast.makeText(getApplicationContext(),"Oops, are you sure you are connected to the internet? ",Toast.LENGTH_SHORT);
-                        fetchData();
-
-                    }
-                });
-
-        jsObjRequest.setTag(Constants.REQUEST_QUEUE_TAG);
-        this.mRequestQueue.add(jsObjRequest);
     }
 
     private void passDataToFragment(ArrayList<HashMap<String,String>> data){
@@ -196,8 +146,17 @@ public class MainActivity extends AppCompatActivity
     public void onSwipeInteraction() {
 
         mProgressBar.setVisibility(View.VISIBLE);
-        fetchData();
+        Common.fetchData(this);
     }
 
+    @Override
+    public void onDataReceived(ArrayList<HashMap<String, String>> data) {
+        passDataToFragment(DataSource.getData());
+    }
 
+    @Override
+    public void onTitleReceived(String title) {
+        getSupportActionBar().setTitle(DataSource.getTitle());
+        mProgressBar.setVisibility(View.GONE);
+    }
 }

@@ -4,9 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,7 @@ import com.testapp.assignment.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Models.DataSource;
+import models.DataSource;
 import adapters.CustomListAdapter;
 import constants.Constants;
 
