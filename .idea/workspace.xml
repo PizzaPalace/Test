@@ -51,17 +51,17 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/testapp/assignment/activities/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.875">
-              <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.049701788">
+              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding>
                 <element signature="e#2130#2163#0" expanded="true" />
                 <element signature="e#2587#2855#0" expanded="true" />
                 <element signature="e#2854#2855#0" expanded="true" />
                 <element signature="e#4016#4541#0" expanded="true" />
                 <element signature="e#4540#4541#0" expanded="true" />
-                <element signature="e#4543#4831#0" expanded="true" />
-                <element signature="e#4830#4831#0" expanded="true" />
-                <element signature="e#5163#5196#0" expanded="true" />
+                <element signature="e#4543#4869#0" expanded="true" />
+                <element signature="e#4868#4869#0" expanded="true" />
+                <element signature="e#5201#5234#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2540,7 +2540,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1362" height="728" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2549,7 +2549,7 @@
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20104896" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.02097902" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -2624,9 +2624,9 @@
             <element signature="e#2854#2855#0" expanded="true" />
             <element signature="e#4016#4541#0" expanded="true" />
             <element signature="e#4540#4541#0" expanded="true" />
-            <element signature="e#4543#4831#0" expanded="true" />
-            <element signature="e#4830#4831#0" expanded="true" />
-            <element signature="e#5163#5196#0" expanded="true" />
+            <element signature="e#4543#4869#0" expanded="true" />
+            <element signature="e#4868#4869#0" expanded="true" />
+            <element signature="e#5201#5234#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2814,17 +2814,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/testapp/assignment/activities/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.875">
-          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.049701788">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding>
             <element signature="e#2130#2163#0" expanded="true" />
             <element signature="e#2587#2855#0" expanded="true" />
             <element signature="e#2854#2855#0" expanded="true" />
             <element signature="e#4016#4541#0" expanded="true" />
             <element signature="e#4540#4541#0" expanded="true" />
-            <element signature="e#4543#4831#0" expanded="true" />
-            <element signature="e#4830#4831#0" expanded="true" />
-            <element signature="e#5163#5196#0" expanded="true" />
+            <element signature="e#4543#4869#0" expanded="true" />
+            <element signature="e#4868#4869#0" expanded="true" />
+            <element signature="e#5201#5234#0" expanded="true" />
           </folding>
         </state>
       </provider>

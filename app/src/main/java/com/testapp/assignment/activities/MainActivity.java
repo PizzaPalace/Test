@@ -146,6 +146,8 @@ public class MainActivity extends AppCompatActivity
                         // TODO Auto-generated method stub
                         Log.v("ERROR", error.toString());
 
+                        fetchData();
+
                     }
                 });
 
