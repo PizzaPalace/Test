@@ -1,8 +1,11 @@
 package com.testapp.assignment.activities;
 
+import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,10 +26,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import constants.Constants;
+import fragments.ListFragment;
 import json.JSONHelper;
 import network.VolleySingleton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+                          implements ListFragment.OnFragmentInteractionListener{
 
     ArrayList<HashMap<String,String>> mData;
 
@@ -83,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.v("Response: ", response.toString());
                         mData = JSONHelper.jsonParser(response);
                         Log.v("data",mData.toString());
+                        passDataToFragment(mData);
+
                     }
                 }, new Response.ErrorListener() {
 
@@ -95,5 +102,17 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         requestQueue.add(jsObjRequest);
+    }
+
+    private void passDataToFragment(ArrayList<HashMap<String,String>> data){
+
+        FragmentManager manager = getSupportFragmentManager();
+        ListFragment listFragment = (ListFragment)manager.findFragmentByTag(getString(R.string.list_fragment));
+        listFragment.setAdapter(data);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
