@@ -12,4 +12,8 @@ public class Constants {
     public static final String IMAGE_URL = "imageHref";
 
     public static final String URL = "https://dl.dropboxusercontent.com/u/746330/facts.json";
+
+    public static final String DATA_STORE_KEY = "DATA_STORE_KEY";
+
+    public static final String REQUEST_QUEUE_TAG = "REQUEST_QUEUE_TAG";
 }

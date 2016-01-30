@@ -23,7 +23,8 @@ import constants.Constants;
  * Created by rahul on 30-01-2016.
  */
 
-public class CustomListAdapter extends BaseAdapter {
+public class CustomListAdapter extends BaseAdapter
+                                {
 
     Context mContext;
     ArrayList<HashMap<String,String>> mData;
@@ -102,7 +103,6 @@ public class CustomListAdapter extends BaseAdapter {
 
             Picasso.with(mContext)
                     .load(imageURL)
-                    .fit()
                     .placeholder(android.R.drawable.stat_notify_error)
                     .error(android.R.drawable.stat_notify_error)
                     .into(viewHolder.mImageView);

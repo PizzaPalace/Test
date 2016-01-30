@@ -67,12 +67,15 @@ public class JSONHelper {
                 HashMap<String,String> map = new HashMap<String,String>();
                 JSONObject jObject = jsonArray.getJSONObject(i);
 
+                String title = jObject.getString(Constants.TITLE);
+                if(title != null && !title.equals("null")) {
 
-                map.put(Constants.TITLE, jObject.getString(Constants.TITLE));
-                map.put(Constants.DESCRIPTION, jObject.getString(Constants.DESCRIPTION));
-                map.put(Constants.IMAGE_URL, jObject.getString(Constants.IMAGE_URL));
+                    map.put(Constants.TITLE, jObject.getString(Constants.TITLE));
+                    map.put(Constants.DESCRIPTION, jObject.getString(Constants.DESCRIPTION));
+                    map.put(Constants.IMAGE_URL, jObject.getString(Constants.IMAGE_URL));
+                    list.add(map);
+                }
 
-                list.add(map);
                 map = null;
             }
 

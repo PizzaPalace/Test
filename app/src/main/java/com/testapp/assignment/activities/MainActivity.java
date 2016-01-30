@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Models.DataSource;
 import constants.Constants;
 import fragments.ListFragment;
 import json.JSONHelper;
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity
                           implements ListFragment.OnFragmentInteractionListener{
 
     String mActivityTitle;
-    ArrayList<HashMap<String,String>> mData;
     ProgressBar mProgressBar;
+    RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,26 @@ public class MainActivity extends AppCompatActivity
 
         mProgressBar = (ProgressBar)findViewById(R.id.progress_bar);
 
-        fetchData();
+        if(savedInstanceState == null) {
+            fetchData();
+        }
+        else{
+            FragmentManager manager = getSupportFragmentManager();
+            manager.getFragment(savedInstanceState,Constants.DATA_STORE_KEY);
+            mProgressBar.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle bundle){
+        super.onSaveInstanceState(bundle);
+
+        bundle.putSerializable(Constants.DATA_STORE_KEY, DataSource.getData());
+        FragmentManager manager = getSupportFragmentManager();
+        ListFragment fragment = (ListFragment)manager.findFragmentByTag(getString(R.string.list_fragment));
+        manager.putFragment(bundle, Constants.DATA_STORE_KEY, fragment);
+
     }
 
     private void initializeToolbar(){
@@ -93,9 +113,19 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        if(mRequestQueue != null){
+            mRequestQueue.cancelAll(Constants.REQUEST_QUEUE_TAG);
+        }
+
+    }
+
     private void fetchData(){
 
-        RequestQueue requestQueue = VolleySingleton.getInstance(this).getRequestQueue();
+        this.mRequestQueue = VolleySingleton.getInstance(this).getRequestQueue();
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, Constants.URL, null, new Response.Listener<JSONObject>() {
@@ -103,8 +133,8 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        mData = JSONHelper.jsonParser(response);
-                        passDataToFragment(mData);
+                        DataSource.setData(JSONHelper.jsonParser(response));
+                        passDataToFragment(DataSource.getData());
                         mProgressBar.setVisibility(View.GONE);
                         mActivityTitle = JSONHelper.getTitle(response);
                         getSupportActionBar().setTitle(mActivityTitle);
@@ -119,7 +149,8 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        requestQueue.add(jsObjRequest);
+        jsObjRequest.setTag(Constants.REQUEST_QUEUE_TAG);
+        this.mRequestQueue.add(jsObjRequest);
     }
 
     private void passDataToFragment(ArrayList<HashMap<String,String>> data){
@@ -141,4 +172,6 @@ public class MainActivity extends AppCompatActivity
         mProgressBar.setVisibility(View.VISIBLE);
         fetchData();
     }
+
+
 }

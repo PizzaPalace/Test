@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import com.testapp.assignment.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Models.DataSource;
 import adapters.CustomListAdapter;
+import constants.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,6 +87,26 @@ public class ListFragment extends Fragment
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState != null){
+
+            ArrayList<HashMap<String,String>> data = (ArrayList<HashMap<String,String>>)savedInstanceState.getSerializable(Constants.DATA_STORE_KEY);
+            setAdapter(data);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle){
+        super.onSaveInstanceState(bundle);
+
+
+        bundle.putSerializable(Constants.DATA_STORE_KEY,DataSource.getData());
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -141,6 +164,4 @@ public class ListFragment extends Fragment
         void onFragmentInteraction(Uri uri);
         void onSwipeInteraction();
     }
-
-
 }
