@@ -26,6 +26,11 @@ public class NetworkService extends IntentService {
 
     public NetworkService() { super("NetworkService"); }
 
+    /**
+     * This method starts the service after setting an action.
+     *
+     * @param context Activity coontext to start the Service
+     */
     public static void readFromNetwork(Context context) {
 
         Intent intent = new Intent(context, NetworkService.class);
@@ -33,12 +38,19 @@ public class NetworkService extends IntentService {
         context.startService(intent);
     }
 
+    /**
+     * Provides a background worker thread that fetches data from the network
+     * and uses a broadcast receiver to transfer the data to Activity
+     *
+     * @param intent
+     */
     @Override
     protected void onHandleIntent(Intent intent) {
 
         if (intent != null) {
             final String action = intent.getAction();
             if(ACTION_NETWORK.equals(action)){
+
                 Common.fetchDataAndBroadcast(this);
             }
         }

@@ -14,10 +14,12 @@ import listeners.NetworkListener;
 public class NetworkReceiver extends BroadcastReceiver {
 
     public static final String RECEIVER_KEY = "com.testapp.assignment.RECEIVER_KEY";
+    // Declare a Listener reference to be used in onReceive()
     NetworkListener mListener;
 
     public NetworkReceiver(){};
 
+    // Cast context to type of Listener
     public NetworkReceiver(Context context) {
         super();
         if(context instanceof Activity)
@@ -34,6 +36,7 @@ public class NetworkReceiver extends BroadcastReceiver {
             try {
                 ArrayList<HashMap<String, String>> data = (ArrayList<HashMap<String, String>>) intent.getSerializableExtra(Constants.DATA);
                 String title = intent.getStringExtra(Constants.TITLE);
+                // Pass data to Activity via listener method after broadcast is received
                 if(mListener != null)
                     mListener.onInformationReceived(data,title);
 
@@ -43,7 +46,7 @@ public class NetworkReceiver extends BroadcastReceiver {
             }
         }
         else {
-            throw new UnsupportedOperationException();
+            //throw new UnsupportedOperationException();
         }
     }
 }

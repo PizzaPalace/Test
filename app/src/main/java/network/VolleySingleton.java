@@ -10,6 +10,8 @@ import com.android.volley.toolbox.Volley;
 
 /**
  * Created by rahul on 30-01-2016.
+ * Singleton class that provides a reference to Volley's RequestQueue.
+ * All JSON is parsed after a querying the network
  */
 public class VolleySingleton {
 
@@ -19,6 +21,7 @@ public class VolleySingleton {
     private ImageLoader mImageLoader;
     private static Context mCtx;
 
+    // Singleton class
     private VolleySingleton(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
@@ -40,6 +43,7 @@ public class VolleySingleton {
                 });
     }
 
+    // Obtain a singleton reference to a Volley object
     public static synchronized VolleySingleton getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new VolleySingleton(context);
@@ -47,6 +51,7 @@ public class VolleySingleton {
         return mInstance;
     }
 
+    // Obtain a RequestQueue that queues network requests and provides responses asynchronously
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
@@ -60,6 +65,8 @@ public class VolleySingleton {
         getRequestQueue().add(req);
     }
 
+    // get reference to an ImageLoader if images need to be loaded via Volley.
+    // Note- Picasso is used in this project
     public ImageLoader getImageLoader() {
         return mImageLoader;
     }
