@@ -1,5 +1,8 @@
 package com.testapp.assignment.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,31 +16,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.testapp.assignment.R;
-
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import listeners.NetworkListener;
 import models.DataSource;
 import constants.Common;
 import constants.Constants;
 import fragments.ListFragment;
-import json.JSONHelper;
 import network.VolleySingleton;
+import receivers.NetworkReceiver;
+import services.NetworkService;
 
 public class MainActivity extends AppCompatActivity
                           implements ListFragment.OnFragmentInteractionListener,
                                      NetworkListener {
 
     ProgressBar mProgressBar;
+    BroadcastReceiver mNetworkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +42,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mProgressBar = (ProgressBar)findViewById(R.id.progress_bar);
+
         initializeToolbar();
         initializeFAB();
 
-        mProgressBar = (ProgressBar)findViewById(R.id.progress_bar);
-
-        if(savedInstanceState == null) {
-            //fetchData();
-            Common.fetchData(this);
-        }
-        else{
-            FragmentManager manager = getSupportFragmentManager();
-            manager.getFragment(savedInstanceState,Constants.DATA_STORE_KEY);
-            mProgressBar.setVisibility(View.GONE);
-
-            String title = (String)savedInstanceState.getString(Constants.TITLE);
-            getSupportActionBar().setTitle(title);
-        }
-
+        onOrientationChanged(savedInstanceState);
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle bundle){
@@ -75,6 +61,40 @@ public class MainActivity extends AppCompatActivity
         ListFragment fragment = (ListFragment)manager.findFragmentByTag(getString(R.string.list_fragment));
         manager.putFragment(bundle, Constants.DATA_STORE_KEY, fragment);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        mNetworkReceiver = new NetworkReceiver(this);
+        IntentFilter filter = new IntentFilter(NetworkReceiver.RECEIVER_KEY);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(mNetworkReceiver, filter);
+    }
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        unregisterReceiver(mNetworkReceiver);
+    }
+
+    private void onOrientationChanged(Bundle savedInstanceState){
+
+        if(savedInstanceState == null) {
+            //Common.fetchData(this);
+            NetworkService.readFromNetwork(this);
+        }
+        else{
+            FragmentManager manager = getSupportFragmentManager();
+            manager.getFragment(savedInstanceState,Constants.DATA_STORE_KEY);
+            mProgressBar.setVisibility(View.GONE);
+
+            String title = (String)savedInstanceState.getString(Constants.TITLE);
+            getSupportActionBar().setTitle(title);
+        }
     }
 
     private void initializeToolbar(){
@@ -118,6 +138,8 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     protected void onStop(){
         super.onStop();
@@ -146,7 +168,8 @@ public class MainActivity extends AppCompatActivity
     public void onSwipeInteraction() {
 
         mProgressBar.setVisibility(View.VISIBLE);
-        Common.fetchData(this);
+        //Common.fetchData(this);
+        NetworkService.readFromNetwork(this);
     }
 
     @Override
@@ -156,6 +179,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTitleReceived(String title) {
+        getSupportActionBar().setTitle(DataSource.getTitle());
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onInformationReceived(ArrayList<HashMap<String, String>> data, String title) {
+
+        passDataToFragment(DataSource.getData());
         getSupportActionBar().setTitle(DataSource.getTitle());
         mProgressBar.setVisibility(View.GONE);
     }

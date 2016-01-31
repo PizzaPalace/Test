@@ -10,4 +10,6 @@ public interface NetworkListener {
 
     public void onDataReceived(ArrayList<HashMap<String,String>> data);
     public void onTitleReceived(String title);
+    public void onInformationReceived(ArrayList<HashMap<String,String>> data,String title);
+
 }

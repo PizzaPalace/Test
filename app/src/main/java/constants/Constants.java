@@ -20,5 +20,5 @@ public class Constants {
 
     public static final String REQUEST_QUEUE_TAG = "REQUEST_QUEUE_TAG";
 
-
+    public static final String DATA = "DATA";
 }
