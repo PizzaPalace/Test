@@ -10,19 +10,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
-
 import com.android.volley.RequestQueue;
 import com.testapp.assignment.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import listeners.NetworkListener;
 import models.DataSource;
-import constants.Common;
 import constants.Constants;
 import fragments.ListFragment;
 import network.VolleySingleton;
@@ -41,16 +38,18 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // initialize UI components
         mProgressBar = (ProgressBar)findViewById(R.id.progress_bar);
-
         initializeToolbar();
         initializeFAB();
-
-        onOrientationChanged(savedInstanceState);
+        initializeData(savedInstanceState);
     }
 
-
+    /*
+    Required to handle orientation changes. On orientation change the Fragment's state
+    is persisted. Data is retrieved in the initializeData() method called in onCreate()
+    A Bundle is used to persist data at the Activity level.
+     */
     @Override
     protected void onSaveInstanceState(Bundle bundle){
         super.onSaveInstanceState(bundle);
@@ -63,6 +62,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /*
+    Register a network receiver in onResume(). The receiver is unregistered in onPause()
+     */
     @Override
     public void onResume(){
         super.onResume();
@@ -79,9 +81,20 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
 
         unregisterReceiver(mNetworkReceiver);
+        mNetworkReceiver = null;
     }
 
-    private void onOrientationChanged(Bundle savedInstanceState){
+    /**
+     * Method that initializes data by checking if savedInstanceState is null
+     * If true, a call is made to the server via an IntentService. Data is obtained
+     * in the Activity using a BroadcastReceiver. Else, if the device is rotated or if
+     * orientation change occurs, persisted state stored in onSaveInstance state
+     * is retrieved. Every time the device is rotated, the progress bar needs to be
+     * hidden for better user experience.
+     *
+     * @param savedInstanceState bundle passed from the onCreate() method
+     */
+    private void initializeData(Bundle savedInstanceState){
 
         if(savedInstanceState == null) {
             //Common.fetchData(this);
@@ -97,6 +110,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Initializes the Toolbar (a replacement for the ActionBar)
+     * and sets the default title to a empty string. The title is changed
+     * once data is fetched from the network.
+     */
     private void initializeToolbar(){
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -104,6 +122,10 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle("");
     }
 
+    /**
+     * Initializes the FloatingActionButton and attaches a click listener. Does
+     * not serve any purpose in this app.
+     */
     private void initializeFAB(){
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -139,7 +161,10 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
+    /*
+    Cancel all pending requests in Volley's RequestQueue before exiting the app.
+    The tag that identifies requests is defined in the Constants class.
+     */
     @Override
     protected void onStop(){
         super.onStop();
@@ -151,6 +176,15 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Passes data obtained from network to Fragment's adapter. Also clears the
+     * swipe widget from the UI once operation is completed.
+     *
+     * @param data ArrayList<HashMap<String,String>> that represents the JSON feed
+     *             as a Java data-structure and is passed to a Fragment.
+     *             The fragment contains a ListView whose adapter is bound
+     *             with this ArrayList.
+     */
     private void passDataToFragment(ArrayList<HashMap<String,String>> data){
 
         FragmentManager manager = getSupportFragmentManager();
@@ -159,11 +193,17 @@ public class MainActivity extends AppCompatActivity
         listFragment.dismissRefresh();
     }
 
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
+    /**
+     * Listener method that handles swipe interactions. Fetches data from the network
+     * using an IntentService + BroadcastReceiver combination. Call to the service's
+     * static method readFromNetwork(Context) is made here.
+     */
     @Override
     public void onSwipeInteraction() {
 
@@ -172,17 +212,36 @@ public class MainActivity extends AppCompatActivity
         NetworkService.readFromNetwork(this);
     }
 
+    /**
+     * Passes data obtained from NetworkListener to Fragment
+     *
+     * @param data ArrayList<HashMap<String,String>> that is to be bound to
+     *             the Fragment's adapter.
+     */
     @Override
     public void onDataReceived(ArrayList<HashMap<String, String>> data) {
         passDataToFragment(DataSource.getData());
     }
 
+    /**
+     * Sets the Activity's title after it is obtained from NetworkListener.
+     * Also hides ProgressBar.
+     *
+     * @param title Title to be set for the Activity once data is obtained from listener
+     */
     @Override
     public void onTitleReceived(String title) {
         getSupportActionBar().setTitle(DataSource.getTitle());
         mProgressBar.setVisibility(View.GONE);
     }
 
+    /**
+     * Listener method that passes data from BroadcastReceiver.
+     * Also hides progress bar.
+     *
+     * @param data ArrayList<HashMap<String,String>>
+     * @param title String
+     */
     @Override
     public void onInformationReceived(ArrayList<HashMap<String, String>> data, String title) {
 
