@@ -92,15 +92,15 @@ public class CustomListAdapter extends BaseAdapter
 
             viewHolder.mTitleTextView.setText(title);
 
+            // leaves out descriptions containing null in the listview.
             if(description != null && !description.equals("null")) {
                 viewHolder.mDescriptionTextView.setText(description);
-                Log.v("NOT NULL",description);
             }
             else{
                 viewHolder.mDescriptionTextView.setText("");
-                Log.v("null",description);
             }
-
+            // Uses the Picasso library to render images if present in each listitem
+            // if images are absent, a placeholder is displayed.
             Picasso.with(mContext)
                     .load(imageURL)
                     .placeholder(android.R.drawable.stat_notify_error)

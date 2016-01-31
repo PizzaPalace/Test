@@ -24,7 +24,13 @@ import constants.Constants;
  * Created by rahul on 30-01-2016.
  */
 public class JSONHelper {
-
+    /**
+     * This function is no longer used, see Common.fetchDataAndBroadcast
+     *
+     * @param requestQueue
+     * @param url
+     * @return
+     */
     public static ArrayList<HashMap<String,String>> requestData(RequestQueue requestQueue, String url) {
 
         ArrayList<HashMap<String,String>> data = null;
@@ -53,7 +59,14 @@ public class JSONHelper {
         return data;
     }
 
-
+    /**
+     * Parses the JSON feed into a usable Java datastructure that is tied with
+     * the ListView's adapter.
+     *
+     * @param jsonObject
+     * @return ArrayList<HashMap<String,String>> that corresponds to the data associated with
+     * the ListView's adapter
+     */
     public static ArrayList<HashMap<String,String>> jsonParser(JSONObject jsonObject) {
 
         try {
@@ -90,6 +103,12 @@ public class JSONHelper {
         }
     }
 
+    /**
+     * Parses the JSON feed and return a String corresponding to the title of Activity.
+     *
+     * @param jsonObject
+     * @return String that is to be set as the title of the Activity.
+     */
     public static String getTitle(JSONObject jsonObject){
 
         String title;

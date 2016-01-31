@@ -96,6 +96,10 @@ public class ListFragment extends Fragment
         }
     }
 
+    /**
+     * Save data associated with the Fragment's adapter in a Bundle, required to persist the Fragment's state
+     * @param bundle Bundle to store an Arr
+     */
     @Override
     public void onSaveInstanceState(Bundle bundle){
         super.onSaveInstanceState(bundle);
@@ -127,12 +131,20 @@ public class ListFragment extends Fragment
         mListener = null;
     }
 
+    /**
+     *
+     * @param data ArrayList<HashMap<String,String>> to bind with the Fragment's adapter
+     */
     public void setAdapter(ArrayList<HashMap<String,String>> data){
 
         CustomListAdapter adapter = new CustomListAdapter(getActivity(),data);
         mListView.setAdapter(adapter);
     }
 
+    /**
+     * Called when a user swipes across the top of the page. The listener is implemented
+     * in the Activity that then fetches data from the network.
+     */
     @Override
     public void onRefresh() {
 
@@ -140,6 +152,9 @@ public class ListFragment extends Fragment
         mListener.onSwipeInteraction();
     }
 
+    /**
+     * Clears the swipe to refresh widget.
+     */
     public void dismissRefresh(){
         if(mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing())
             mSwipeRefreshLayout.setRefreshing(false);
@@ -158,6 +173,7 @@ public class ListFragment extends Fragment
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        // Associated with the SwipeToRefresh widget
         void onSwipeInteraction();
     }
 }
