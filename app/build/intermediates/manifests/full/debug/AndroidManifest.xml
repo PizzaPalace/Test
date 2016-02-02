@@ -26,15 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name="services.NetworkService"
-            android:exported="false" />
-
-        <receiver
-            android:name="receivers.NetworkReceiver"
-            android:enabled="true"
-            android:exported="true" />
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
 package models;
 
-
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ public class DataSource  {
     public List<Details> getDetails(){
         return rows;
     }
-    
+
     public void setDetails(List<Details> details){
         rows= details;
     }

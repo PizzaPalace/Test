@@ -21,14 +21,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="services.NetworkService"
-            android:exported="false" />
-
-        <receiver
-            android:name="receivers.NetworkReceiver"
-            android:enabled="true"
-            android:exported="true"></receiver>
     </application>
 
 </manifest>

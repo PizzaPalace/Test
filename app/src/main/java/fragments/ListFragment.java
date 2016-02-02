@@ -14,6 +14,7 @@ import com.testapp.assignment.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import constants.Common;
 import models.DataSource;
 import adapters.CustomListAdapter;
 import constants.Constants;
@@ -83,9 +84,14 @@ public class ListFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         if(savedInstanceState != null){
+            try {
+                List<Details> data = (List<Details>) savedInstanceState.getSerializable(Constants.DATA_STORE_KEY);
+                if (data != null)
+                    setAdapter(data);
 
-            List<Details> data = (List<Details>)savedInstanceState.getSerializable(Constants.DATA_STORE_KEY);
-            setAdapter(data);
+            }catch(NullPointerException exception){
+                Common.displayErrorMessage(getActivity());
+            }
         }
     }
 
