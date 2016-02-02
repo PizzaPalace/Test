@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class DataSource  {
 
+    // fields have to correspond with JSON feed's keys to be used with gson
     private static String title;
     private static List<Details> rows;
 
