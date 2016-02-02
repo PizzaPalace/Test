@@ -14,8 +14,6 @@ import com.testapp.assignment.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import models.DataSource;
 import models.Details;
 
 /**
