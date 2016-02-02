@@ -40,8 +40,7 @@ public class Common {
 
     /**
      * Helper method that fetches data asynchronously using Volley's RequestQueue
-     * and then passes that data to an Activity using an interface listener. Was used
-     * in MainActivity before being replaced by fetchDataAndBroadcast()
+     * and then passes that data to an Activity using an interface listener.
      *
      * @param _context An Activity context to cast the Listener to and also to display
      *                 Toast messages for errors

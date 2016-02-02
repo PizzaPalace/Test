@@ -10,6 +10,9 @@ import models.DataSource;
  */
 public interface NetworkListener {
 
+    /*
+    Listener to pass data after data is received.
+     */
     public void onDataReceived(DataSource data);
 
 }

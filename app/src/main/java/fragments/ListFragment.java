@@ -71,6 +71,11 @@ public class ListFragment extends Fragment
         return view;
     }
 
+    /*
+     * Required to retrieve Fragment's state when device is rotated. State is persisted
+     * in onSaveInstanceState()
+     *
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -95,7 +100,9 @@ public class ListFragment extends Fragment
         source = null;
     }
 
-
+    /**
+     * Listener implementation to pass data to Activity is performed here.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -107,6 +114,7 @@ public class ListFragment extends Fragment
         }
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -115,7 +123,7 @@ public class ListFragment extends Fragment
 
     /**
      *
-     * @param data ArrayList<HashMap<String,String>> to bind with the Fragment's adapter
+     * @param data Data to bind with the Fragment's adapter
      */
     public void setAdapter(List<Details> data){
 
@@ -145,8 +153,7 @@ public class ListFragment extends Fragment
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
+     * to the activity.
      * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"

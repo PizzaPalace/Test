@@ -63,9 +63,9 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Method that initializes data by checking if savedInstanceState is null
-     * If true, a call is made to the server via an IntentService. Data is obtained
-     * in the Activity using a BroadcastReceiver. Else, if the device is rotated or if
-     * orientation change occurs, persisted state stored in onSaveInstance state
+     * If true, a call is made to the server using Volley. Data is obtained
+     * in the Activity using a listener. Else, if the device is rotated or if
+     * orientation change occurs, persisted state stored in onSaveInstanceState
      * is retrieved. Every time the device is rotated, the progress bar needs to be
      * hidden for better user experience.
      *
@@ -154,9 +154,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Listener method that handles swipe interactions. Fetches data from the network
-     * using an IntentService + BroadcastReceiver combination. Call to the service's
-     * static method readFromNetwork(Context) is made here.
+     * Listener method that handles swipe interactions after fetching data from network.
      */
     @Override
     public void onSwipeInteraction() {
