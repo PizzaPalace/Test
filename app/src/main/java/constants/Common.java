@@ -2,7 +2,6 @@ package constants;
 
 import android.content.Context;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -11,7 +10,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.JSONObject;
-
 import listeners.NetworkListener;
 import models.DataSource;
 import network.VolleySingleton;

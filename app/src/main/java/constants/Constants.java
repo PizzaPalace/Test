@@ -1,7 +1,5 @@
 package constants;
 
-import android.content.Context;
-import android.widget.Toast;
 
 /**
  * Created by rahul on 30-01-2016.
