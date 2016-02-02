@@ -66,7 +66,7 @@ public class Common {
                             /* Perform gson parsing on background thread to avoid
                                blocking the ui thread. Note that the listener is called
                                from the background thread and control has to be passed
-                               in the ui thread in the listener implementation
+                               to the ui thread in the listener implementation, done in MainActivity
                                (to pass data to fragment).This can be performed in other ways */
                             new Thread(new Runnable(){
 
@@ -80,6 +80,8 @@ public class Common {
                                     //Log.v("output", dataSource.toString());
                                     gsonBuilder = null;
                                     gson = null;
+
+                                    // called on background thread - control has to be passed to ui thread in MainActivity
                                     listener.onDataReceived(dataSource);
 
                                 }
