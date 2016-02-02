@@ -10,6 +10,7 @@ import java.util.List;
  * Created by rahul on 30-01-2016.
  * Class that functions as the (M) in the MVC for this project.
  * Has getter and setter methods each for the data and title.
+ * This class is populated via gson after parsing the network feed.
  */
 public class DataSource  {
 

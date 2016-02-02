@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     private void initializeData(Bundle savedInstanceState){
 
         if(savedInstanceState == null) {
-            Common.fetchData3(this);
+            Common.fetchData(this);
         }
         else{
             FragmentManager manager = getSupportFragmentManager();
@@ -153,12 +153,6 @@ public class MainActivity extends AppCompatActivity
         listFragment.dismissRefresh();
     }
 
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     /**
      * Listener method that handles swipe interactions. Fetches data from the network
      * using an IntentService + BroadcastReceiver combination. Call to the service's
@@ -168,18 +162,21 @@ public class MainActivity extends AppCompatActivity
     public void onSwipeInteraction() {
 
         mProgressBar.setVisibility(View.VISIBLE);
-        Common.fetchData3(this);
+        Common.fetchData(this);
     }
 
     /**
-     * Passes data obtained from NetworkListener to Fragment
+     * Passes data obtained from NetworkListener to Fragment. The listener is called from
+     * a background thread and control needs to be passed to the ui thread to
+     * dismiss the progress bar and set the listfragment's adapter done in passDataToFragment().
      *
-     * @param data ArrayList<HashMap<String,String>> that is to be bound to
+     * @param _data ArrayList<HashMap<String,String>> that is to be bound to
      *             the Fragment's adapter.
      */
     @Override
     public void onDataReceived(DataSource _data) {
         final DataSource data = _data;
+
         runOnUiThread(new Runnable(){
             @Override
             public void run() {
@@ -190,8 +187,5 @@ public class MainActivity extends AppCompatActivity
                 dataSource = null;
             }
         });
-
     }
-
-
 }

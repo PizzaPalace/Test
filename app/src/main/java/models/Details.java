@@ -2,6 +2,9 @@ package models;
 
 /**
  * Created by rahul on 02-02-2016.
+ * Class that corresponds to gson parsed objects belonging to a JSONArray.
+ * Has getter and setter methods.
+ * A List<Details> is declared in the DataSource class.
  */
 public class Details {
 
