@@ -11,17 +11,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import json.JSONHelper;
 import listeners.NetworkListener;
 import models.DataSource;
 import network.VolleySingleton;
-import receivers.NetworkReceiver;
+
 
 /**
  * Created by rahul on 30-01-2016.
@@ -47,7 +47,7 @@ public class Common {
      * @param _context An Activity context to cast the Listener to and also to display
      *                 Toast messages for errors
      */
-    public static void fetchData(Context _context) {
+    /*public static void fetchData(Context _context) {
 
         // Cast the context as a Listener to pass data to Activity
         final NetworkListener listener = (NetworkListener) _context;
@@ -65,7 +65,7 @@ public class Common {
 
                             // On successful network query, get data from JSONHelper
                             // class that parses JSON and returns an ArrayList<HashMap<String,String>>
-                            ArrayList<HashMap<String, String>> data = JSONHelper.jsonParser(response);
+                            ArrayList<Object[]> data = JSONHelper.jsonParser(response);
 
                             // Check if data obtained is not null else display a Toast
                             if (data != null) {
@@ -107,7 +107,7 @@ public class Common {
         jsObjRequest.setTag(Constants.REQUEST_QUEUE_TAG);
         requestQueue.add(jsObjRequest);
 
-    }
+    }*/
 
     /**
      * Helper method that uses Volley's RequestQueue to fetch data over the network.
@@ -118,7 +118,7 @@ public class Common {
      *                 Toast messages for errors
      */
 
-    public static void fetchDataAndBroadcast(Context _context) {
+    /*public static void fetchDataAndBroadcast(Context _context) {
 
         final Context context = _context;
         // Get reference to Volley's RequestQueue
@@ -179,5 +179,59 @@ public class Common {
 
         jsObjRequest.setTag(Constants.REQUEST_QUEUE_TAG);
         requestQueue.add(jsObjRequest);
+    }*/
+
+    public static void fetchData3(Context _context) {
+
+        // Cast the context as a Listener to pass data to Activity
+        final NetworkListener listener = (NetworkListener) _context;
+        final Context context = _context;
+        RequestQueue requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
+
+        // Use Volley to asynchronously fetch data from network
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, Constants.URL, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject resp) {
+
+                        final JSONObject response = resp;
+                        try {
+                            new Thread(new Runnable(){
+
+                                @Override
+                                public void run() {
+
+                                    GsonBuilder gsonBuilder  = new GsonBuilder();
+                                    gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+                                    Gson gson = gsonBuilder.create();
+                                    DataSource dataSource = gson.fromJson(response.toString(), DataSource.class);
+                                    Log.v("output", dataSource.toString());
+                                    listener.onDataReceived(dataSource);
+                                    gsonBuilder = null;
+                                    gson = null;
+                                }
+                            }).start();
+
+
+                        } catch (NullPointerException exception) {
+                            Common.displayErrorMessage(context);
+                            exception.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        // If there was error in connecting to the network
+                        // repeat network request until data is obtained
+                        fetchData3(context);
+                    }
+                });
+
+        jsObjRequest.setTag(Constants.REQUEST_QUEUE_TAG);
+        requestQueue.add(jsObjRequest);
+
     }
 }

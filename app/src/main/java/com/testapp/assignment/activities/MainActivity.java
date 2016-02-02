@@ -1,12 +1,7 @@
 package com.testapp.assignment.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,22 +11,24 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import com.android.volley.RequestQueue;
 import com.testapp.assignment.R;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+
+import constants.Common;
 import listeners.NetworkListener;
 import models.DataSource;
 import constants.Constants;
 import fragments.ListFragment;
+import models.Details;
 import network.VolleySingleton;
-import receivers.NetworkReceiver;
-import services.NetworkService;
+
 
 public class MainActivity extends AppCompatActivity
                           implements ListFragment.OnFragmentInteractionListener,
                                      NetworkListener {
 
     ProgressBar mProgressBar;
-    BroadcastReceiver mNetworkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +38,6 @@ public class MainActivity extends AppCompatActivity
         // initialize UI components
         mProgressBar = (ProgressBar)findViewById(R.id.progress_bar);
         initializeToolbar();
-        initializeFAB();
         initializeData(savedInstanceState);
     }
 
@@ -54,35 +50,16 @@ public class MainActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle bundle){
         super.onSaveInstanceState(bundle);
 
-        bundle.putSerializable(Constants.DATA_STORE_KEY, DataSource.getData());
-        bundle.putString(Constants.TITLE, DataSource.getTitle());
+        DataSource source = new DataSource();
+        bundle.putSerializable(Constants.DATA_STORE_KEY, (ArrayList<Details>) source.getDetails());
+        bundle.putString(Constants.TITLE, source.getTitle());
+        source = null;
         FragmentManager manager = getSupportFragmentManager();
         ListFragment fragment = (ListFragment)manager.findFragmentByTag(getString(R.string.list_fragment));
         manager.putFragment(bundle, Constants.DATA_STORE_KEY, fragment);
 
     }
 
-    /*
-    Register a network receiver in onResume(). The receiver is unregistered in onPause()
-     */
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        mNetworkReceiver = new NetworkReceiver(this);
-        IntentFilter filter = new IntentFilter(NetworkReceiver.RECEIVER_KEY);
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        registerReceiver(mNetworkReceiver, filter);
-    }
-
-
-    @Override
-    public void onPause(){
-        super.onPause();
-
-        unregisterReceiver(mNetworkReceiver);
-        mNetworkReceiver = null;
-    }
 
     /**
      * Method that initializes data by checking if savedInstanceState is null
@@ -97,8 +74,7 @@ public class MainActivity extends AppCompatActivity
     private void initializeData(Bundle savedInstanceState){
 
         if(savedInstanceState == null) {
-            //Common.fetchData(this);
-            NetworkService.readFromNetwork(this);
+            Common.fetchData3(this);
         }
         else{
             FragmentManager manager = getSupportFragmentManager();
@@ -120,22 +96,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-    }
-
-    /**
-     * Initializes the FloatingActionButton and attaches a click listener. Does
-     * not serve any purpose in this app.
-     */
-    private void initializeFAB(){
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -185,7 +145,7 @@ public class MainActivity extends AppCompatActivity
      *             The fragment contains a ListView whose adapter is bound
      *             with this ArrayList.
      */
-    private void passDataToFragment(ArrayList<HashMap<String,String>> data){
+    private void passDataToFragment(List<Details> data){
 
         FragmentManager manager = getSupportFragmentManager();
         ListFragment listFragment = (ListFragment)manager.findFragmentByTag(getString(R.string.list_fragment));
@@ -208,8 +168,7 @@ public class MainActivity extends AppCompatActivity
     public void onSwipeInteraction() {
 
         mProgressBar.setVisibility(View.VISIBLE);
-        //Common.fetchData(this);
-        NetworkService.readFromNetwork(this);
+        Common.fetchData3(this);
     }
 
     /**
@@ -219,34 +178,20 @@ public class MainActivity extends AppCompatActivity
      *             the Fragment's adapter.
      */
     @Override
-    public void onDataReceived(ArrayList<HashMap<String, String>> data) {
-        passDataToFragment(DataSource.getData());
+    public void onDataReceived(DataSource dat) {
+        final DataSource data = dat;
+        runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                DataSource dataSource = new DataSource();
+                getSupportActionBar().setTitle(dataSource.getTitle());
+                passDataToFragment(data.getDetails());
+                mProgressBar.setVisibility(View.GONE);
+                dataSource = null;
+            }
+        });
+
     }
 
-    /**
-     * Sets the Activity's title after it is obtained from NetworkListener.
-     * Also hides ProgressBar.
-     *
-     * @param title Title to be set for the Activity once data is obtained from listener
-     */
-    @Override
-    public void onTitleReceived(String title) {
-        getSupportActionBar().setTitle(DataSource.getTitle());
-        mProgressBar.setVisibility(View.GONE);
-    }
 
-    /**
-     * Listener method that passes data from BroadcastReceiver.
-     * Also hides progress bar.
-     *
-     * @param data ArrayList<HashMap<String,String>>
-     * @param title String
-     */
-    @Override
-    public void onInformationReceived(ArrayList<HashMap<String, String>> data, String title) {
-
-        passDataToFragment(DataSource.getData());
-        getSupportActionBar().setTitle(DataSource.getTitle());
-        mProgressBar.setVisibility(View.GONE);
-    }
 }

@@ -1,8 +1,6 @@
 package adapters;
 
 import android.content.Context;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +13,10 @@ import com.testapp.assignment.R;
 import com.testapp.assignment.activities.MainActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
-import constants.Constants;
+import models.DataSource;
+import models.Details;
 
 /**
  * Created by rahul on 30-01-2016.
@@ -35,15 +34,15 @@ public class CustomListAdapter extends BaseAdapter{
     // An Activity context to obtain reference to LayoutInflater
     Context mContext;
     // Indexed data structure to use in getView(..) method.
-    ArrayList<HashMap<String,String>> mData;
+    ArrayList<Details> mData;
     // LayoutInflater variable to inflate views.
     LayoutInflater mInflater;
 
     public CustomListAdapter(Context context,
-                             ArrayList<HashMap<String, String>> data){
+                             List<Details> data){
 
         this.mContext = context;
-        this.mData = data;
+        this.mData = new ArrayList<>(data);
         if (mContext instanceof MainActivity)
             this.mInflater = ((MainActivity) mContext).getLayoutInflater();
 
@@ -111,13 +110,12 @@ public class CustomListAdapter extends BaseAdapter{
 
         // check if data obtained from JSONParsers is not null.
         if(mData != null) {
-            // get map corresponding to each position in arraylist.
-            HashMap<String,String> map = mData.get(position);
 
+            Details detail = mData.get(position);
             // get title, description and imageURL reference.
-            title = map.get(Constants.TITLE);
-            description = map.get(Constants.DESCRIPTION);
-            imageURL = map.get(Constants.IMAGE_URL);
+            title = detail.getTitle();
+            description = detail.getDescription();
+            imageURL = detail.getImageURL();
 
             // apply data to each view.
             viewHolder.mTitleTextView.setText(title);

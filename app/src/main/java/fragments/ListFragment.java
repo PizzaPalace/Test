@@ -13,11 +13,12 @@ import android.widget.ListView;
 import com.testapp.assignment.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import models.DataSource;
 import adapters.CustomListAdapter;
 import constants.Constants;
+import models.Details;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,7 +92,7 @@ public class ListFragment extends Fragment
 
         if(savedInstanceState != null){
 
-            ArrayList<HashMap<String,String>> data = (ArrayList<HashMap<String,String>>)savedInstanceState.getSerializable(Constants.DATA_STORE_KEY);
+            List<Details> data = (List<Details>)savedInstanceState.getSerializable(Constants.DATA_STORE_KEY);
             setAdapter(data);
         }
     }
@@ -104,7 +105,9 @@ public class ListFragment extends Fragment
     public void onSaveInstanceState(Bundle bundle){
         super.onSaveInstanceState(bundle);
 
-        bundle.putSerializable(Constants.DATA_STORE_KEY,DataSource.getData());
+        DataSource source = new DataSource();
+        bundle.putSerializable(Constants.DATA_STORE_KEY,(ArrayList<Details>)source.getDetails());
+        source = null;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -135,7 +138,7 @@ public class ListFragment extends Fragment
      *
      * @param data ArrayList<HashMap<String,String>> to bind with the Fragment's adapter
      */
-    public void setAdapter(ArrayList<HashMap<String,String>> data){
+    public void setAdapter(List<Details> data){
 
         CustomListAdapter adapter = new CustomListAdapter(getActivity(),data);
         mListView.setAdapter(adapter);
