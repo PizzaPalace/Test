@@ -8,7 +8,7 @@ package models;
  */
 public class Details {
 
-    // fields have to correspond with JSON feed's keys to be used with gson
+    // fields have to correspond with JSON feed's keys to be used with gson.
     String title;
     String description;
     String imageHref;
