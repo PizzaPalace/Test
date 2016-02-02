@@ -99,16 +99,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     /*
-    Creates the option menu
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    /*
     Cancel all pending requests in Volley's RequestQueue before exiting the app.
     The tag that identifies requests is defined in the Constants class.
      */

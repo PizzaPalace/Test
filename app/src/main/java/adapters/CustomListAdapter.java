@@ -24,7 +24,8 @@ import models.Details;
  *  TextView displays a description if present along an ImageView in a 2:1 ratio
  *  along the same row (refer list_element.xml).
  *
- *  Note - This class can be replaced by the more recent RecylcerView class.
+ *  Note - This class can be replaced by the more recent RecylcerView.Adapter class
+ *  and the listview with a RecyclerView.
  */
 
 public class CustomListAdapter extends BaseAdapter{

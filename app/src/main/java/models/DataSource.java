@@ -8,7 +8,7 @@ import java.util.List;
  * Class that functions as the (M) in the MVC for this project.
  * Has getter and setter methods each for the data and title.
  * This class is populated via gson after parsing the network feed.
- * Implements Serializable so that it can be saved in a Bundle during orientation change.
+ * Implements Serializable so that it can be saved in a Bundle during orientation changes.
  */
 public class DataSource implements Serializable {
 

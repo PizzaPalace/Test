@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Class that corresponds to gson parsed objects belonging to a JSONArray.
  * Has getter and setter methods.
  * A List<Details> is declared in the DataSource class.
- * Implements Serializable so that it can be saved in a Bundle during orientation change
+ * Implements Serializable so that it can be saved in a Bundle during orientation changes.
  */
 public class Details implements Serializable {
 
