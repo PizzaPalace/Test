@@ -178,8 +178,8 @@ public class MainActivity extends AppCompatActivity
      *             the Fragment's adapter.
      */
     @Override
-    public void onDataReceived(DataSource dat) {
-        final DataSource data = dat;
+    public void onDataReceived(DataSource _data) {
+        final DataSource data = _data;
         runOnUiThread(new Runnable(){
             @Override
             public void run() {

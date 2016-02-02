@@ -2,6 +2,7 @@ package constants;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -193,10 +194,11 @@ public class Common {
                 (Request.Method.GET, Constants.URL, null, new Response.Listener<JSONObject>() {
 
                     @Override
-                    public void onResponse(JSONObject resp) {
+                    public void onResponse(JSONObject _response) {
 
-                        final JSONObject response = resp;
                         try {
+                            final JSONObject response = _response;
+
                             new Thread(new Runnable(){
 
                                 @Override
@@ -206,18 +208,19 @@ public class Common {
                                     gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
                                     Gson gson = gsonBuilder.create();
                                     DataSource dataSource = gson.fromJson(response.toString(), DataSource.class);
-                                    Log.v("output", dataSource.toString());
-                                    listener.onDataReceived(dataSource);
+                                    //Log.v("output", dataSource.toString());
                                     gsonBuilder = null;
                                     gson = null;
+                                    listener.onDataReceived(dataSource);
+
                                 }
                             }).start();
-
 
                         } catch (NullPointerException exception) {
                             Common.displayErrorMessage(context);
                             exception.printStackTrace();
                         }
+
                     }
                 }, new Response.ErrorListener() {
 
@@ -234,4 +237,7 @@ public class Common {
         requestQueue.add(jsObjRequest);
 
     }
+
+
+
 }
